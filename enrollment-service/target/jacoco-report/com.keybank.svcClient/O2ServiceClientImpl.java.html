@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>O2ServiceClientImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">enrollment-service</a> &gt; <a href="index.source.html" class="el_package">com.keybank.svcClient</a> &gt; <span class="el_source">O2ServiceClientImpl.java</span></div><h1>O2ServiceClientImpl.java</h1><pre class="source lang-java linenums">/**@Copyright 2022 keybank pvt ltd.
+ * All rights are reserved,you should 
+*disclose the information outside
+* otherwise terms and condition will apply
+ */
+package com.keybank.svcClient;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import com.keybank.exception.O2ServiceException;
+import com.keybank.model.O2ServiceRequest;
+import com.keybank.model.O2ServiceResponse;
+import com.keybank.util.EnrollmentConstant;
+
+/**
+ * @author YNBR 14-Mar-2022
+ *
+ */
+@Component
+<span class="fc" id="L35">public class O2ServiceClientImpl implements O2ServiceClient{</span>
+	@Autowired
+	RestTemplate restTemplate;
+
+	@Override
+	public O2ServiceResponse enrollemnt(O2ServiceRequest request) throws O2ServiceException {
+<span class="fc" id="L41">		System.out.println(&quot;----------enter into O2 service client---Enrollment-&quot;);</span>
+		// TODO Auto-generated method stub
+		//get the request from service
+		//prepare the request for o2 service like add headers,body
+		//create RestTemplate and make call to O2Service ,get the response
+<span class="fc" id="L46">		String uri=&quot;http://localhost:8686/v1/mobile/verify&quot;;</span>
+		//RestTemplate restTemplate=new RestTemplate();
+<span class="fc" id="L48">		restTemplate.getMessageConverters()</span>
+<span class="fc" id="L49">		.add(new MappingJackson2HttpMessageConverter());</span>
+		
+<span class="fc" id="L51">		HttpHeaders header = new HttpHeaders();</span>
+<span class="fc" id="L52">		header.setContentType(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L53">		header.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));</span>
+<span class="fc" id="L54">		header.setContentType(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L55">		header.set(EnrollmentConstant.CLIENT_ID, EnrollmentConstant.HDFC);</span>
+<span class="fc" id="L56">		header.set(EnrollmentConstant.MSGTS, new Date().toString());</span>
+<span class="fc" id="L57">		header.set(EnrollmentConstant.REQUESTID, (String) UUID.randomUUID().toString().subSequence(0, 15));</span>
+<span class="fc" id="L58">		header.set(EnrollmentConstant.VERSION, EnrollmentConstant.versionNo);</span>
+<span class="fc" id="L59">		HttpEntity&lt;O2ServiceRequest&gt; entity = new HttpEntity&lt;O2ServiceRequest&gt;(request, header);</span>
+			
+<span class="fc" id="L61">	      System.out.println(&quot;----------Exit into O2 service client---Enrollment-&quot;);</span>
+
+<span class="fc" id="L63">	      ResponseEntity&lt;O2ServiceResponse&gt;  response= restTemplate.exchange(uri, HttpMethod.POST, entity, O2ServiceResponse.class);</span>
+<span class="fc" id="L64">	      O2ServiceResponse o2ServiceResponse=null;</span>
+	      try {
+<span class="fc bfc" id="L66" title="All 2 branches covered.">	      if(response.getStatusCode().is2xxSuccessful()) {</span>
+<span class="fc" id="L67">	    	  o2ServiceResponse= response.getBody();</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">	      }else if(response.getStatusCode().is4xxClientError()) {</span>
+<span class="fc" id="L69">	    	  throw new O2ServiceException(&quot;400&quot;,&quot;client Error&quot;);</span>
+	      }
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">	      else if(response.getStatusCode().is5xxServerError()) {</span>
+<span class="fc" id="L72">	    	  throw new O2ServiceException(&quot;500&quot;,&quot;Server rror&quot;);</span>
+	      }
+	      }
+<span class="fc" id="L75">	      catch(O2ServiceException os) {</span>
+<span class="fc" id="L76">	    	  throw os;</span>
+	    	  
+<span class="fc" id="L78">	      }</span>
+	   
+	      
+<span class="fc" id="L81">		return o2ServiceResponse;</span>
+	}
+	/*
+	 * public static void main(String[] args) throws O2ServiceException {
+	 * O2ServiceClientImpl service=new O2ServiceClientImpl(); O2ServiceRequest
+	 * req=new O2ServiceRequest(); req.setMobileNum(&quot;999999999&quot;);
+	 * service.enrollemnt(req); }
+	 */
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

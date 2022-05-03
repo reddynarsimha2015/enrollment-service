@@ -1,0 +1,4 @@
+com\keybank\controller\EnrollmentControllerTest.class
+com\keybank\service\EnrollmentServiceImplTest.class
+com\keybank\svcClient\O2ServiceClientImplTest.class
+com\keybank\validator\EnrollmentValidatorTest.class

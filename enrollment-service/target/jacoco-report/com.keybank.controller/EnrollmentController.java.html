@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnrollmentController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">enrollment-service</a> &gt; <a href="index.source.html" class="el_package">com.keybank.controller</a> &gt; <span class="el_source">EnrollmentController.java</span></div><h1>EnrollmentController.java</h1><pre class="source lang-java linenums">/**@Copyright 2022 keybank pvt ltd.
+ * All rights are reserved,you should 
+*disclose the information outside
+* otherwise terms and condition will apply
+ */
+package com.keybank.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.keybank.exception.BusinessException;
+import com.keybank.exception.EnrollmentRequestInvalidException;
+import com.keybank.exception.O2ServiceException;
+import com.keybank.exception.SystemException;
+import com.keybank.model.EnrollmentRequest;
+import com.keybank.model.EnrollmentResponse;
+import com.keybank.service.EnrollmentService;
+import com.keybank.validator.EnrollmentValidator;
+
+/**
+ * @author YNBR 14-Mar-2022
+ *
+ */
+@RequestMapping(&quot;/v1&quot;)
+@RestController
+//@WebService for soapwebservice
+<span class="fc" id="L31">public class EnrollmentController {</span>
+ //@PostMapping(&quot;/enrollment&quot;)
+	@Autowired
+	EnrollmentService enrollmentService;
+	
+	@Autowired
+	EnrollmentValidator validator;
+	
+@RequestMapping(value=&quot;/enrollment&quot;, 
+          method=RequestMethod.POST,
+          produces=&quot;application/json&quot;,
+          consumes=&quot;application/json&quot;)
+	public EnrollmentResponse  enrollment(@RequestBody EnrollmentRequest enrollmentReqest,
+			@RequestHeader(name=&quot;clientId&quot;,required =true) String clientId,
+			@RequestHeader(name=&quot;requestId&quot;,required=true) String requestId,@RequestHeader(name=&quot;messageTs&quot;,required=true) String messageTs
+			) throws EnrollmentRequestInvalidException, BusinessException, SystemException, O2ServiceException {
+<span class="fc" id="L47">	System.out.println(&quot;-------------enter into controller--------Enrollment------&quot;);</span>
+	//1.get request data in json format from consumer/client
+	//2.convert json request data into java using jackdon library with help of @RequestBody annotation
+	//3.now got java object
+	//validate request
+<span class="fc" id="L52">	validator.validateRequest(enrollmentReqest);</span>
+	
+	//5.call servicee layer  and get response
+<span class="fc" id="L55">	EnrollmentResponse serviceResponse=enrollmentService.enollment(enrollmentReqest,clientId);</span>
+	
+	//6 prepare final response in controller
+	//7 send final response to consumer/client
+	//8 while sending response to consumer,jackson will convert response  to json with help of
+	//@ResponseBody
+	//9 send response json  to consumer
+
+	
+	//19 get the response from service layer
+	//20 verify the response, if need modify the  response
+	//21 prepare final controller response
+	//22 convert response oject to json
+	//23  send response json to consumer/client
+	
+<span class="fc" id="L70">	System.out.println(&quot;-------------Exit into controller-----------Enrollment---&quot;);</span>
+
+<span class="fc" id="L72">		return serviceResponse;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

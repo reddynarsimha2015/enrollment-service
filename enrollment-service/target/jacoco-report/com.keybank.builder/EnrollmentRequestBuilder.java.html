@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnrollmentRequestBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">enrollment-service</a> &gt; <a href="index.source.html" class="el_package">com.keybank.builder</a> &gt; <span class="el_source">EnrollmentRequestBuilder.java</span></div><h1>EnrollmentRequestBuilder.java</h1><pre class="source lang-java linenums">/**@Copyright 2022 keybank pvt ltd.
+ * All rights are reserved,you should 
+*disclose the information outside
+* otherwise terms and condition will apply
+ */
+package com.keybank.builder;
+
+import org.springframework.stereotype.Component;
+
+import com.keybank.model.EnrollmentDaoRequest;
+import com.keybank.model.EnrollmentRequest;
+import com.keybank.model.O2ServiceRequest;
+import com.keybank.model.O2ServiceResponse;
+
+/**
+ * @author YNBR 05-Apr-2022
+ *
+ */
+@Component
+<span class="nc" id="L20">public class EnrollmentRequestBuilder {</span>
+
+/**
+ * Desciption:This method is uesd to prepare O2ServiceRequest with help of EnrollmentRequest
+ *@param req
+ *@return o2ServiceRequest
+ */
+public O2ServiceRequest buildO2Request(EnrollmentRequest req) {
+<span class="fc" id="L28">	O2ServiceRequest o2ServiceRequest=new O2ServiceRequest();</span>
+<span class="fc" id="L29">	o2ServiceRequest.setMobileNum(req.getMobileNum());</span>
+<span class="fc" id="L30">	o2ServiceRequest.setAmount(req.getAmount());</span>
+<span class="fc" id="L31">	o2ServiceRequest.setBillDate(req.getBillDate());</span>
+<span class="fc" id="L32">	o2ServiceRequest.setCustomerName(req.getCustomerName());</span>
+<span class="fc" id="L33">	o2ServiceRequest.setPaymentDate(req.getPaymentDate());</span>
+<span class="fc" id="L34">	o2ServiceRequest.setProviderType(req.getProviderType());</span>
+<span class="fc" id="L35">	return o2ServiceRequest;</span>
+}
+/**
+ * Description:This method is uesd to prepare EnrollmentDaoRequest with help of EnrollmentRequest
+ *@param req
+ * @param clientId 
+ *@return daoRequest
+ */ 
+public  EnrollmentDaoRequest  buildEnrollDaoRquest(EnrollmentRequest req, String clientId) {
+<span class="fc" id="L44">	EnrollmentDaoRequest daoRequest=new EnrollmentDaoRequest();</span>
+<span class="fc" id="L45">	daoRequest.setClientId(clientId);</span>
+<span class="fc" id="L46">	daoRequest.setMobileNum(req.getMobileNum());</span>
+<span class="fc" id="L47">	daoRequest.setAmount(req.getAmount());</span>
+<span class="fc" id="L48">	daoRequest.setBillDate(req.getBillDate());</span>
+<span class="fc" id="L49">	daoRequest.setCustomerName(req.getCustomerName());</span>
+<span class="fc" id="L50">	daoRequest.setPaymentDate(req.getPaymentDate());</span>
+<span class="fc" id="L51">	daoRequest.setProviderType(req.getProviderType());</span>
+<span class="fc" id="L52">	daoRequest.setCardNumber(req.getAccountdetails().getCardNumber());</span>
+<span class="fc" id="L53">	daoRequest.setCvv(req.getAccountdetails().getCvv());</span>
+<span class="fc" id="L54">	daoRequest.setCardOnName(req.getAccountdetails().getCardOnName());</span>
+<span class="fc" id="L55">	daoRequest.setExpDate(req.getAccountdetails().getExpDate());</span>
+<span class="fc" id="L56">	return daoRequest;</span>
+	
+}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
