@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.keybank.controller.EnrollmentController;
 import com.keybank.exception.BusinessException;
 import com.keybank.exception.EnrollmentRequestInvalidException;
 import com.keybank.exception.SystemException;
 import com.keybank.model.EnrollmentResponse;
+import com.keybank.util.EnrollmentConstant;
 
 
 /**
@@ -22,6 +24,7 @@ import com.keybank.model.EnrollmentResponse;
  */
 @RestControllerAdvice
 public class EnrollmentControllerAdvice {
+	private static final org.slf4j.Logger Logger=org.slf4j.LoggerFactory.getLogger(EnrollmentControllerAdvice.class);
 	@ExceptionHandler(value=EnrollmentRequestInvalidException.class)
 	@ResponseBody
 	public EnrollmentResponse handleException(EnrollmentRequestInvalidException e) {
@@ -48,12 +51,13 @@ public class EnrollmentControllerAdvice {
 	@ResponseBody
 	public EnrollmentResponse handleException(Exception e) {
 		//prepare error resp to client
-		EnrollmentResponse response=buildError("111", "");
+		EnrollmentResponse response=buildError(EnrollmentConstant.GENERIC_ERROR_CODE,EnrollmentConstant.GENERIC_ERROR_MSG);
 		return response;
 	}
 	
 
 	public EnrollmentResponse buildError(String responseCOde,String respMsg){
+		Logger.info("--------------buildError-------"+responseCOde);
 		EnrollmentResponse response=new EnrollmentResponse();
 		response.setRespCode(responseCOde);
 		response.setRespMsg(respMsg);

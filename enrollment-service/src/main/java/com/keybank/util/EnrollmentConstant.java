@@ -16,4 +16,6 @@ public class EnrollmentConstant {
 	public static final String VERSION="version";
 	public static final String HDFC="hdfc";
 	public static final String versionNo="1.0";
+	public static final String GENERIC_ERROR_CODE="111";
+	public static final String GENERIC_ERROR_MSG="UNKNOWN ERROR";
 }
